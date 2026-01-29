@@ -124,7 +124,8 @@ class Attention(nn.Module):
             attention_scores = logits.masked_fill(mask, -1e9)
 
         
-        output = F.softmax(attention_scores, dim=-1)
+        attention = F.softmax(attention_scores, dim=-1)
+        output = torch.matmul(attention, value)
         return output
 
 
