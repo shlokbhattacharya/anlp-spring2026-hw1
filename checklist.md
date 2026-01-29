@@ -2,7 +2,7 @@
 
 ### Setup & Environment
 - [X] Run `bash setup.sh` successfully
-- [ ] Verify model weights downloaded (stories42M.pt)
+- [X] Verify model weights downloaded (stories42M.pt)
 
 ### Core Implementation
 - [ ] **llama.py**
