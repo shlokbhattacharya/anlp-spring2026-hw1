@@ -1,7 +1,7 @@
 ## Assignment Checklist
 
 ### Setup & Environment
-- [ ] Run `bash setup.sh` successfully
+- [X] Run `bash setup.sh` successfully
 - [ ] Verify model weights downloaded (stories42M.pt)
 
 ### Core Implementation
