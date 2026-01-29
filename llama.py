@@ -42,7 +42,8 @@ class LayerNorm(torch.nn.Module):
             torch.Tensor: The normalized tensor.
         """
         # todo
-        raise NotImplementedError
+        std,mean = torch.std_mean(x, dim=-1, unbiased=False, keepdim=True)
+        return (x - mean)/(std + self.eps)
 
     def forward(self, x):
         """
