@@ -107,7 +107,25 @@ class Attention(nn.Module):
         jointly using matrix/tensor operations.
         '''
         # todo
-        raise NotImplementedError
+        # (bs, n_local_heads, head_dim, seqlen)
+        K_T = torch.transpose(key, -1, -2)
+
+        seqlen = K_T.size(-1)
+
+        # (bs, n_local_heads, seqlen, seqlen)
+        dot_prod = torch.matmul(query, K_T)
+
+        # (bs, n_local_heads, seqlen, seqlen)
+        logits = dot_prod / math.sqrt(self.head_dim)
+
+        # mask
+        if self.causal:
+            mask = torch.triu(torch.zeros(seqlen, seqlen, dtype=torch.bool), diagonal=1)
+            attention_scores = logits.masked_fill(mask, -1e9)
+
+        
+        output = F.softmax(attention_scores, dim=-1)
+        return output
 
 
     def forward(
