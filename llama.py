@@ -110,7 +110,6 @@ class Attention(nn.Module):
         # (bs, n_local_heads, head_dim, seqlen)
         K_T = torch.transpose(key, -1, -2)
 
-        seqlen = K_T.size(-1)
 
         # (bs, n_local_heads, seqlen, seqlen)
         dot_prod = torch.matmul(query, K_T)
@@ -120,6 +119,7 @@ class Attention(nn.Module):
 
         # mask
         if self.causal:
+            seqlen = K_T.size(-1)
             mask = torch.triu(torch.zeros(seqlen, seqlen, dtype=torch.bool), diagonal=1)
             attention_scores = logits.masked_fill(mask, -1e9)
 
@@ -231,7 +231,19 @@ class LlamaLayer(nn.Module):
            output of the feed-forward network
         '''
         # todo
-        raise NotImplementedError
+        input_norm = self.attention_norm(x)
+
+        self_attention = self.attention(input_norm)
+
+        residual_connection = x + self_attention
+
+        attention_norm = self.ffn_norm(residual_connection)
+
+        feed_forward = self.feed_forward(attention_norm)
+
+        output = residual_connection + feed_forward
+
+        return output
 
 class Llama(LlamaPreTrainedModel):
     def __init__(self, config: LlamaConfig):
