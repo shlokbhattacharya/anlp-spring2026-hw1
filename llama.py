@@ -335,9 +335,27 @@ class Llama(LlamaPreTrainedModel):
                 '''
                 # todo 
 
-                raise NotImplementedError
+                # 1) Scale the logits with the temperature followed by normalization using Softmax.
+                probs = F.softmax(logits/temperature, dim=-1)
+
+                # 2) Sort tokens by descending probability.
+                sorted_probs, sorted_indices = torch.sort(probs, dim=-1, descending=True)
+
+                # 3) Compute the cumulative probability distribution.
+                cpd = torch.cumsum(sorted_probs, dim=-1)
+
+                # 4) Select the smallest set of tokens whose cumulative probability is >= p.
+                mask = cpd <= top_p
+                # 5) Mask out all tokens outside this nucleus.
+                probs_subset = sorted_probs * mask
+                # 6) Renormalize the remaining probabilities so they sum to 1.
+                probs_subset /= torch.sum(probs_subset, dim=-1, keepdim = True)
+
+                # 7) Sample from this filtered probability distribution.
+                sample = torch.multinomial(probs_subset, num_sample=1)
+
                 # map to original vocab indices
-                idx_next = None
+                idx_next = sorted_indices[sample]
             
             # append sampled index to the running sequence and continue
             idx = torch.cat((idx, idx_next), dim=1)
