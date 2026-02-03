@@ -346,16 +346,17 @@ class Llama(LlamaPreTrainedModel):
 
                 # 4) Select the smallest set of tokens whose cumulative probability is >= p.
                 mask = cpd <= top_p
+                mask[:,0] = True # need this line because if the first token has >top_p prob then False so we fix this by always setting first to True
                 # 5) Mask out all tokens outside this nucleus.
                 probs_subset = sorted_probs * mask
                 # 6) Renormalize the remaining probabilities so they sum to 1.
                 probs_subset /= torch.sum(probs_subset, dim=-1, keepdim = True)
 
                 # 7) Sample from this filtered probability distribution.
-                sample = torch.multinomial(probs_subset, num_sample=1)
+                sample = torch.multinomial(probs_subset, num_samples=1)
 
                 # map to original vocab indices
-                idx_next = sorted_indices[sample]
+                idx_next = sorted_indices[:, sample.squeeze()].reshape(1,1)
             
             # append sampled index to the running sequence and continue
             idx = torch.cat((idx, idx_next), dim=1)
