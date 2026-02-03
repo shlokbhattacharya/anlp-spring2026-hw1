@@ -5,8 +5,8 @@
 - [X] Verify model weights downloaded (stories42M.pt)
 
 ### Core Implementation
-- [ ] **llama.py**
-- [ ] **rope.py**
+- [X] **llama.py**
+- [X] **rope.py**
 - [ ] **optimizer.py**
 - [ ] **addition_data_generation.py**
 - [ ] **addition_run.py**
