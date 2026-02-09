@@ -44,23 +44,50 @@ class AdamW(Optimizer):
                 if grad.is_sparse:
                     raise RuntimeError("Adam does not support sparse gradients, please consider SparseAdam instead")
 
-                raise NotImplementedError()
+                # raise NotImplementedError()
 
                 # State should be stored in this dictionary
                 state = self.state[p]
 
+                # initialization if state is empty
+                if len(state) == 0:
+                    state["t"] = 0
+                    state["first_moment"] = torch.zeros_like(grad)
+                    state["second_moment"] = torch.zeros_like(grad)
+                
+                prev_first_moment = state["first_moment"]
+                prev_second_moment = state["second_moment"]
+                prev_p = p.data.clone()
+
                 # TODO: Access hyperparameters from the `group` dictionary
                 alpha = group["lr"]
+                beta_1, beta_2 = group["betas"]
+
 
                 # TODO: Update first and second moments of the gradients
+                state["t"] += 1
+                t = state["t"]
+                first_moment = beta_1*prev_first_moment + (1-beta_1)*grad
+                second_moment = beta_2*prev_second_moment + (1-beta_2)*(grad**2)
+                state["first_moment"] = first_moment
+                state["second_moment"] = second_moment
+
 
                 # TODO: Bias correction
                 # Please note that we are using the "efficient version" given in Algorithm 2 
                 # https://arxiv.org/pdf/1711.05101
+                if group["correct_bias"]:
+                    alpha_t = alpha * ((1-(beta_2**t))**0.5)/(1-(beta_1**t))
+                else:
+                    alpha_t = alpha
 
                 # TODO: Update parameters
+                eps = group["eps"]
+                p.data -= alpha_t*first_moment/(second_moment**0.5 + eps)
 
                 # TODO: Add weight decay after the main gradient-based updates.
                 # Please note that the learning rate should be incorporated into this update.
+                weight_decay = group["weight_decay"]
+                p.data -= alpha*weight_decay*prev_p
 
         return loss
