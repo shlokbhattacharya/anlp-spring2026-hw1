@@ -7,7 +7,7 @@
 ### Core Implementation
 - [X] **llama.py**
 - [X] **rope.py**
-- [ ] **optimizer.py**
+- [X] **optimizer.py**
 - [ ] **addition_data_generation.py**
 - [ ] **addition_run.py**
 
