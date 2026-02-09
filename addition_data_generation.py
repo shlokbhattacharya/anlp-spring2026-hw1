@@ -15,10 +15,17 @@ def generate_addition_data(n):
     5) Return the data formatted as strings of the form "a+b=c"
     """
     # todo
-    # data = []
-    # ....
-    # return data
-    raise NotImplementedError
+    data = []
+    pairs = set()
+    while len(pairs) != n:
+        a,b = random.randint(1000,9999), random.randint(1000,9999)
+        if (a,b) not in pairs and (b,a) not in pairs:
+            pairs.add((a,b))
+            c = a+b
+            data.append(f"{a}+{b}={c}")
+
+    return data
+    # raise NotImplementedError
 
 def generate_dataset(n, filename, save_dir="data"):
     data = generate_addition_data(n)

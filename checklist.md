@@ -8,7 +8,7 @@
 - [X] **llama.py**
 - [X] **rope.py**
 - [X] **optimizer.py**
-- [ ] **addition_data_generation.py**
+- [X] **addition_data_generation.py**
 - [ ] **addition_run.py**
 
 ### Testing & Validation
