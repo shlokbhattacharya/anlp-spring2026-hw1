@@ -35,7 +35,8 @@ class AdamW(Optimizer):
 
             # TODO: Clip gradients if max_grad_norm is set
             if group['max_grad_norm'] is not None:
-                raise NotImplementedError()
+                # raise NotImplementedError()
+                torch.nn.utils.clip_grad_norm_(group["params"], group['max_grad_norm'])
             
             for p in group["params"]:
                 if p.grad is None:
