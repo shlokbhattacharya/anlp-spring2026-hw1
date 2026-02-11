@@ -65,11 +65,9 @@ def apply_rotary_emb(
     # slide 49 (linked above).
 
     # (head_dim//2,)
-    indices = torch.arange(start=1, end=head_dim//2 + 1, device=device)
-    exponents = -2 * indices / head_dim
-
+    indices = torch.arange(0, head_dim//2, device=device)
     # (head_dim//2,)
-    thetas = torch.pow(theta, exponents)
+    thetas = theta ** (-2 * indices / head_dim)
 
     # (seqlen,1)
     positions = torch.arange(seqlen,device=device).float().reshape(-1,1)

@@ -9,12 +9,12 @@
 - [X] **rope.py**
 - [X] **optimizer.py**
 - [X] **addition_data_generation.py**
-- [ ] **addition_run.py**
+- [X] **addition_run.py**
 
 ### Testing & Validation
 - [ ] Pass `python sanity_check.py` ## Run this for causal mask 
-- [ ] Pass `python optimizer_test.py` 
-- [ ] Pass `python rope_test.py` 
+- [X] Pass `python optimizer_test.py` 
+- [X] Pass `python rope_test.py` 
 - [ ] Generate coherent text with `python run_llama.py --option generate`
 - [ ] Complete SST zero-shot prompting
 - [ ] Complete CFIMDB zero-shot prompting  
