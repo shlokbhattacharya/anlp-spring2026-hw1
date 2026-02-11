@@ -12,12 +12,12 @@
 - [X] **addition_run.py**
 
 ### Testing & Validation
-- [ ] Pass `python sanity_check.py` ## Run this for causal mask 
+- [X] Pass `python sanity_check.py` ## Run this for causal mask 
 - [X] Pass `python optimizer_test.py` 
 - [X] Pass `python rope_test.py` 
-- [ ] Generate coherent text with `python run_llama.py --option generate`
-- [ ] Complete SST zero-shot prompting
-- [ ] Complete CFIMDB zero-shot prompting  
+- [X] Generate coherent text with `python run_llama.py --option generate`
+- [X] Complete SST zero-shot prompting
+- [X] Complete CFIMDB zero-shot prompting  
 - [ ] Complete data generation for addition llama.
 - [ ] Complete five abalations. 
 - [ ] Achieve target accuracy 100% using a very tiny llama. 
