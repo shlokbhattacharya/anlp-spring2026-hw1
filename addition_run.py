@@ -124,12 +124,36 @@ def evaluate_loss(model, loader, device):
         token id for "=" is 12. 
     """
     # todo
-    # model.eval()
-    # total_loss = 0
-    # n_batches = 0
-    # for ...
+    model.eval()
+    total_loss = 0
+    n_batches = 0
 
-    # return total_loss / n_batches
+    equal_sign_id = 12
+    mask_token = -1
+
+    for batch in tqdm(loader):
+        examples = batch[0]
+
+        tokens = examples[:, :-1]
+        targets = examples[:, 1:]
+
+        mask_equal = (tokens == equal_sign_id).unsqueeze(0)
+        equal_sign_positions = mask_equal.argmax(dim=-1)
+        indices = torch.arange(tokens.size(-1), device=device).unsqueeze(0)
+
+        question_mask = indices < equal_sign_positions.unsqueeze(1)
+        
+        masked_targets = targets.clone()
+        masked_targets[question_mask] = mask_token
+
+        logits,_ = model(tokens=tokens, targets=targets)
+
+        loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), masked_targets.reshape(-1), ignore_index=mask_token)
+
+        total_loss += loss
+        n_batches += 1
+
+    return total_loss / n_batches
 
     raise NotImplementedError
 
