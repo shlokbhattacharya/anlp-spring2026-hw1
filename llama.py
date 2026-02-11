@@ -42,9 +42,9 @@ class LayerNorm(torch.nn.Module):
             torch.Tensor: The normalized tensor.
         """
         # todo
-        std,mean = torch.std_mean(x, dim=-1, correction=0, keepdim=True)
-        return (x - mean)/(std + self.eps)
-
+        var,mean = torch.var_mean(x, dim=-1, correction=0, keepdim=True)
+        return (x - mean)/torch.sqrt(var + self.eps)
+    
     def forward(self, x):
         """
         Apply layer normalization.
@@ -115,19 +115,18 @@ class Attention(nn.Module):
         dot_prod = torch.matmul(query, K_T)
 
         # (bs, n_local_heads, seqlen, seqlen)
-        logits = dot_prod / math.sqrt(self.head_dim)
+        attention_scores = dot_prod / math.sqrt(self.head_dim)
 
         # mask
         if self.causal:
             seqlen = K_T.size(-1)
-            mask = torch.triu(torch.zeros(seqlen, seqlen, dtype=torch.bool), diagonal=1)
-            attention_scores = logits.masked_fill(mask, -1e9)
+            mask = self.causal_mask[:seqlen, :seqlen]
+            attention_scores = attention_scores.masked_fill(mask==0, float("-inf"))
 
         
         attention = F.softmax(attention_scores, dim=-1)
         output = torch.matmul(attention, value)
         return output
-
 
     def forward(
         self,
