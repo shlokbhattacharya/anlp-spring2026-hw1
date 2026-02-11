@@ -72,13 +72,13 @@ def train_one_epoch(model, loader, optimizer, device):
     mask_token = -1
 
     for batch in tqdm(loader):
-        examples = batch[0]
+        examples = batch[0].to(device)
 
         tokens = examples[:, :-1]
         targets = examples[:, 1:]
 
-        mask_equal = (tokens == equal_sign_id).unsqueeze(0)
-        equal_sign_positions = mask_equal.argmax(dim=-1)
+        mask_equal = tokens == equal_sign_id
+        equal_sign_positions = mask_equal.argmax(dim=1)
         indices = torch.arange(tokens.size(-1), device=device).unsqueeze(0)
 
         question_mask = indices < equal_sign_positions.unsqueeze(1)
@@ -88,13 +88,13 @@ def train_one_epoch(model, loader, optimizer, device):
 
         logits,_ = model(tokens=tokens, targets=targets)
 
-        loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), target=masked_targets.reshape(-1), ignore_index=mask_token)
+        loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), masked_targets.reshape(-1), ignore_index=mask_token)
 
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
-        total_loss += loss
+        total_loss += loss.item()
         n_batches += 1
 
     return total_loss / n_batches
@@ -132,13 +132,13 @@ def evaluate_loss(model, loader, device):
     mask_token = -1
 
     for batch in tqdm(loader):
-        examples = batch[0]
+        examples = batch[0].to(device)
 
         tokens = examples[:, :-1]
         targets = examples[:, 1:]
 
-        mask_equal = (tokens == equal_sign_id).unsqueeze(0)
-        equal_sign_positions = mask_equal.argmax(dim=-1)
+        mask_equal = tokens == equal_sign_id
+        equal_sign_positions = mask_equal.argmax(dim=1)
         indices = torch.arange(tokens.size(-1), device=device).unsqueeze(0)
 
         question_mask = indices < equal_sign_positions.unsqueeze(1)
@@ -150,12 +150,12 @@ def evaluate_loss(model, loader, device):
 
         loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), masked_targets.reshape(-1), ignore_index=mask_token)
 
-        total_loss += loss
+        total_loss += loss.item()
         n_batches += 1
 
     return total_loss / n_batches
 
-    raise NotImplementedError
+    # raise NotImplementedError
 
 
 
