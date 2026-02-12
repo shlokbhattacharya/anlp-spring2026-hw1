@@ -1,0 +1,24 @@
+Args: {'command': 'train', 'use_gpu': True, 'seed': 1337, 'epochs': 10, 'batch_size': 1024, 'lr': 0.001, 'save_dir': 'addition_models/ablation_1', 'train_file': 'data/addition_train.txt', 'val_file': 'data/addition_dev.txt', 'dim': 16, 'n_layers': 6, 'n_heads': 4, 'n_kv_heads': 4, 'capacity': 5808844800000}
+model parameters are 25200
+3841829 data points saved to data/addition_train.txt
+768366 data points saved to data/addition_dev.txt
+Epoch 01 | train loss: 1.2308 | val loss: 0.8473
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 02 | train loss: 0.1991 | val loss: 0.0101
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 03 | train loss: 0.0119 | val loss: 0.0026
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 04 | train loss: 0.0082 | val loss: 0.0014
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 05 | train loss: 0.0087 | val loss: 0.0046
+Epoch 06 | train loss: 0.0045 | val loss: 0.0004
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 07 | train loss: 0.0040 | val loss: 0.0001
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 08 | train loss: 0.0036 | val loss: 0.0001
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 09 | train loss: 0.0045 | val loss: 0.0001
+Model saved to addition_models/ablation_1/best_model.pth
+Epoch 10 | train loss: 0.0039 | val loss: 0.0001
+Config saved to addition_models/ablation_1/training_config.json
+Config saved to addition_models/ablation_1/model_config.json
