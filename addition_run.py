@@ -18,7 +18,7 @@ from config import LlamaConfig
 
 from torch.nn import functional as F
 import torch.nn.functional as F
-from torch.optim import AdamW
+# from torch.optim import AdamW
 from tqdm import tqdm
 from torch.utils.data import Dataset
 from torch.utils.data.dataloader import DataLoader
@@ -88,7 +88,15 @@ def train_one_epoch(model, loader, optimizer, device):
 
         logits,_ = model(tokens=tokens, targets=masked_targets)
 
-        loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), masked_targets.reshape(-1), ignore_index=mask_token)
+        logits_flat = logits.view(-1, logits.size(-1))
+        targets_flat = masked_targets.view(-1)
+
+        valid_mask = targets_flat >= 0
+
+        answer_logits = logits_flat[valid_mask]
+        answer_targets = targets_flat[valid_mask]
+
+        loss = F.cross_entropy(answer_logits, answer_targets)
 
         optimizer.zero_grad()
         loss.backward()
@@ -148,7 +156,15 @@ def evaluate_loss(model, loader, device):
 
         logits,_ = model(tokens=tokens, targets=masked_targets)
 
-        loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), masked_targets.reshape(-1), ignore_index=mask_token)
+        logits_flat = logits.view(-1, logits.size(-1))
+        targets_flat = masked_targets.view(-1)
+
+        valid_mask = targets_flat >= 0
+
+        answer_logits = logits_flat[valid_mask]
+        answer_targets = targets_flat[valid_mask]
+
+        loss = F.cross_entropy(answer_logits, answer_targets)
 
         total_loss += loss.item()
         n_batches += 1
