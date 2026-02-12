@@ -1,0 +1,59 @@
+Args: {'command': 'train', 'use_gpu': True, 'seed': 1337, 'epochs': 30, 'batch_size': 1024, 'lr': 0.001, 'save_dir': 'addition_models/ablation_3', 'train_file': 'data/addition_train.txt', 'val_file': 'data/addition_dev.txt', 'dim': 12, 'n_layers': 3, 'n_heads': 3, 'n_kv_heads': 3, 'capacity': 5808844800000}
+model parameters are 5508
+5858998 data points saved to data/addition_train.txt
+1171800 data points saved to data/addition_dev.txt
+Epoch 01 | train loss: 1.3111 | val loss: 1.1750
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 02 | train loss: 1.1477 | val loss: 1.1529
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 03 | train loss: 1.1287 | val loss: 1.1277
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 04 | train loss: 1.1179 | val loss: 1.1498
+Epoch 05 | train loss: 1.1097 | val loss: 1.0972
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 06 | train loss: 1.1028 | val loss: 1.0965
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 07 | train loss: 1.0991 | val loss: 1.0988
+Epoch 08 | train loss: 1.0946 | val loss: 1.0836
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 09 | train loss: 1.0836 | val loss: 1.2564
+Epoch 10 | train loss: 0.9661 | val loss: 0.8967
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 11 | train loss: 0.8987 | val loss: 0.8963
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 12 | train loss: 0.8859 | val loss: 0.8614
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 13 | train loss: 0.8819 | val loss: 0.8606
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 14 | train loss: 0.8733 | val loss: 0.8528
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 15 | train loss: 0.8740 | val loss: 0.8506
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 16 | train loss: 0.8684 | val loss: 0.8452
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 17 | train loss: 0.8684 | val loss: 0.8489
+Epoch 18 | train loss: 0.8664 | val loss: 0.8494
+Epoch 19 | train loss: 0.8270 | val loss: 0.7654
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 20 | train loss: 0.6718 | val loss: 0.5170
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 21 | train loss: 0.5131 | val loss: 0.4836
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 22 | train loss: 0.1457 | val loss: 0.0402
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 23 | train loss: 0.0682 | val loss: 0.0235
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 24 | train loss: 0.0544 | val loss: 0.0189
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 25 | train loss: 0.0545 | val loss: 0.0184
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 26 | train loss: 0.0491 | val loss: 0.0171
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 27 | train loss: 0.0423 | val loss: 0.0155
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 28 | train loss: 0.0318 | val loss: 0.0118
+Model saved to addition_models/ablation_3/best_model.pth
+Epoch 29 | train loss: 0.0360 | val loss: 0.0128
+Epoch 30 | train loss: 0.0367 | val loss: 0.0124
+Config saved to addition_models/ablation_3/training_config.json
+Config saved to addition_models/ablation_3/model_config.json

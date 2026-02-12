@@ -1,0 +1,9 @@
+Args: {'command': 'test', 'use_gpu': True, 'seed': 1337, 'checkpoint': 'addition_models/ablation_3/best_model.pth', 'test_file': 'data/addition_test.txt', 'max_gen_len': 10, 'max_test_examples': None}
+save dir addition_models/ablation_3 filename training_config.json and filepath is addition_models/ablation_3/training_config.json
+save dir addition_models/ablation_3 filename model_config.json and filepath is addition_models/ablation_3/model_config.json
+test length 10000
+Loaded model from addition_models/ablation_3/best_model.pth.
+Accuracy: 0.9886
+test length 10000
+Experiment info saved to addition_models/ablation_3/experiment_summary.json
+Predictions saved to addition_models/ablation_3/predictions.json
