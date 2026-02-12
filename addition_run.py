@@ -72,33 +72,29 @@ def train_one_epoch(model, loader, optimizer, device):
     mask_token = -100
 
     for batch in tqdm(loader):
-        examples = batch[0].to(device)
+        inputs,targets = batch
 
-        tokens = examples[:, :-1]
-        targets = examples[:, 1:]
+        inputs = inputs.to(device)
+        targets = targets.to(device)
 
-        mask_equal = tokens == equal_sign_id
-        equal_sign_positions = mask_equal.int().argmax(dim=1)
-        indices = torch.arange(tokens.size(-1), device=device).unsqueeze(0)
+        eq_mask = inputs == equal_sign_id              
+        eq_pos = eq_mask.int().argmax(dim=1)             
 
-        question_mask = indices < equal_sign_positions.unsqueeze(1)
-        
+        idx = torch.arange(targets.size(1), device=device).unsqueeze(0)  
+        answer_region = idx >= eq_pos.unsqueeze(1)         
+
         masked_targets = targets.clone()
-        masked_targets[question_mask] = mask_token
+        masked_targets[~answer_region] = mask_token
 
-        logits,_ = model(tokens=tokens, targets=masked_targets)
+        logits, _ = model(tokens=inputs, targets=masked_targets) 
 
         logits_flat = logits.view(-1, logits.size(-1))
         targets_flat = masked_targets.view(-1)
 
-        valid_mask = targets_flat >= 0
+        valid = targets_flat >= 0
+        loss = F.cross_entropy(logits_flat[valid], targets_flat[valid])
 
-        answer_logits = logits_flat[valid_mask]
-        answer_targets = targets_flat[valid_mask]
-
-        loss = F.cross_entropy(answer_logits, answer_targets)
-
-        optimizer.zero_grad()
+        optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
 
@@ -140,31 +136,28 @@ def evaluate_loss(model, loader, device):
     mask_token = -100
 
     for batch in tqdm(loader):
-        examples = batch[0].to(device)
+        inputs, targets = batch
 
-        tokens = examples[:, :-1]
-        targets = examples[:, 1:]
+        inputs = inputs.to(device)
+        targets = targets.to(device)
 
-        mask_equal = tokens == equal_sign_id
-        equal_sign_positions = mask_equal.int().argmax(dim=1)
-        indices = torch.arange(tokens.size(-1), device=device).unsqueeze(0)
+        # Locate "=" in inputs
+        eq_mask = inputs == equal_sign_id
+        eq_pos = eq_mask.int().argmax(dim=1)
 
-        question_mask = indices < equal_sign_positions.unsqueeze(1)
-        
+        idx = torch.arange(targets.size(1), device=device).unsqueeze(0)
+        answer_region = idx >= eq_pos.unsqueeze(1)
+
         masked_targets = targets.clone()
-        masked_targets[question_mask] = mask_token
+        masked_targets[~answer_region] = mask_token
 
-        logits,_ = model(tokens=tokens, targets=masked_targets)
+        logits, _ = model(tokens=inputs, targets=masked_targets)
 
         logits_flat = logits.view(-1, logits.size(-1))
         targets_flat = masked_targets.view(-1)
 
-        valid_mask = targets_flat >= 0
-
-        answer_logits = logits_flat[valid_mask]
-        answer_targets = targets_flat[valid_mask]
-
-        loss = F.cross_entropy(answer_logits, answer_targets)
+        valid = targets_flat >= 0
+        loss = F.cross_entropy(logits_flat[valid], targets_flat[valid])
 
         total_loss += loss.item()
         n_batches += 1
