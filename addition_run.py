@@ -78,7 +78,7 @@ def train_one_epoch(model, loader, optimizer, device):
         targets = examples[:, 1:]
 
         mask_equal = tokens == equal_sign_id
-        equal_sign_positions = mask_equal.argmax(dim=1)
+        equal_sign_positions = mask_equal.int().argmax(dim=1)
         indices = torch.arange(tokens.size(-1), device=device).unsqueeze(0)
 
         question_mask = indices < equal_sign_positions.unsqueeze(1)
@@ -138,7 +138,7 @@ def evaluate_loss(model, loader, device):
         targets = examples[:, 1:]
 
         mask_equal = tokens == equal_sign_id
-        equal_sign_positions = mask_equal.argmax(dim=1)
+        equal_sign_positions = mask_equal.int().argmax(dim=1)
         indices = torch.arange(tokens.size(-1), device=device).unsqueeze(0)
 
         question_mask = indices < equal_sign_positions.unsqueeze(1)
