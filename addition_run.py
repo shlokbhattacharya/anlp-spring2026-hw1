@@ -69,7 +69,7 @@ def train_one_epoch(model, loader, optimizer, device):
     n_batches = 0
 
     equal_sign_id = 12
-    mask_token = -1
+    mask_token = -100
 
     for batch in tqdm(loader):
         examples = batch[0].to(device)
@@ -86,7 +86,7 @@ def train_one_epoch(model, loader, optimizer, device):
         masked_targets = targets.clone()
         masked_targets[question_mask] = mask_token
 
-        logits,_ = model(tokens=tokens, targets=targets)
+        logits,_ = model(tokens=tokens, targets=masked_targets)
 
         loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), masked_targets.reshape(-1), ignore_index=mask_token)
 
@@ -129,7 +129,7 @@ def evaluate_loss(model, loader, device):
     n_batches = 0
 
     equal_sign_id = 12
-    mask_token = -1
+    mask_token = -100
 
     for batch in tqdm(loader):
         examples = batch[0].to(device)
@@ -146,7 +146,7 @@ def evaluate_loss(model, loader, device):
         masked_targets = targets.clone()
         masked_targets[question_mask] = mask_token
 
-        logits,_ = model(tokens=tokens, targets=targets)
+        logits,_ = model(tokens=tokens, targets=masked_targets)
 
         loss = F.cross_entropy(logits.reshape(-1, logits.size(-1)), masked_targets.reshape(-1), ignore_index=mask_token)
 
