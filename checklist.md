@@ -18,16 +18,16 @@
 - [X] Generate coherent text with `python run_llama.py --option generate`
 - [X] Complete SST zero-shot prompting
 - [X] Complete CFIMDB zero-shot prompting  
-- [ ] Complete data generation for addition llama.
-- [ ] Complete five abalations. 
-- [ ] Achieve target accuracy 100% using a very tiny llama. 
-- [ ] Train your best model 
+- [X] Complete data generation for addition llama.
+- [X] Complete five abalations. 
+- [X] Achieve target accuracy 100% using a very tiny llama. 
+- [X] Train your best model 
 
 ### Advanced Features (Optional - A+)
-- [ ] Create the tiniest adding llama. 
+- [X] Create the tiniest adding llama. 
 
 ### Submission Preparation
-- [ ] Generate all required output files
+- [X] Generate all required output files
 - [ ] Validate submission with `python prepare_submit.py /path/to/project/ ANDREWID`
 - [ ] Verify file size < 15MB
 - [ ] Create zip file with proper ANDREWID structure
