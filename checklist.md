@@ -28,8 +28,8 @@
 
 ### Submission Preparation
 - [X] Generate all required output files
-- [ ] Validate submission with `python prepare_submit.py /path/to/project/ ANDREWID`
-- [ ] Verify file size < 15MB
-- [ ] Create zip file with proper ANDREWID structure
-- [ ] Include optional report and feedback files
-- [ ] Final submission check before Canvas upload
+- [X] Validate submission with `python prepare_submit.py /path/to/project/ ANDREWID`
+- [X] Verify file size < 15MB
+- [X] Create zip file with proper ANDREWID structure
+- [X] Include optional report and feedback files
+- [X] Final submission check before Canvas upload
